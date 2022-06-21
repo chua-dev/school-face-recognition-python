@@ -12,10 +12,16 @@ import tensorflow as tf
 tf.compat.v1.disable_eager_execution()
 from keras_facenet import FaceNet
 import datetime
+from arcface import ArcFace
+from imutils.video import WebcamVideoStream
+
+face_rec = ArcFace.ArcFace()
 
 # detection and recognition init
 #cap = cv2.VideoCapture("rtsp://admin:abc12345@192.168.1.5:554/Stream/Channels/101")
-cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture(0)
+camera_id = "rtsp://admin:abc12345@192.168.1.5:554/Stream/Channels/101"
+cap = WebcamVideoStream(src=camera_id).start()
 
 pTime = 0
 mpFaceDetection = mp.solutions.face_detection
@@ -146,6 +152,10 @@ for i in range(40):
 '''
 # functions
 def recognize_face(encodeFace,x_list,y_list,name_dict,threshold):
+
+
+
+
     dist_list = list()
     for face in x_list:
         dist_list.append(np.linalg.norm(encodeFace-face))

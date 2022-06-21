@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import multiprocessing
-import numpy as np
+import np as np
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 from keras_facenet import FaceNet

@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import np as np
 import socket
 import sys
 import pickle

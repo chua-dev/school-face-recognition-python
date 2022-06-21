@@ -2,7 +2,7 @@ import socket
 import sys
 import cv2
 import pickle
-import numpy as np
+import np as np
 import struct ## new
 
 HOST=''
