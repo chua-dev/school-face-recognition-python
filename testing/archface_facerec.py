@@ -63,13 +63,14 @@ while True:
     frame = cap.read()
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     #width, height = frame.shape[:2]
+    height, width, channels = frame.shape
     #print(width, height, 1280, 720, 16:9)
 
     detections = faceDetection.process(rgb_frame)
     if detections.detections:
         #print(detections.detections[0].location_data.relative_bounding_box)
         r_bounding_box = detections.detections[0].location_data.relative_bounding_box
-        x, y, h, w = round(r_bounding_box.xmin * 1280) + 0, round(r_bounding_box.ymin * 720) + 0, round(r_bounding_box.height * 720) + 0, round(r_bounding_box.width * 1280) + 0
+        x, y, h, w = round(r_bounding_box.xmin * width) + 0, round(r_bounding_box.ymin * height) + 0, round(r_bounding_box.height * height) + 0, round(r_bounding_box.width * width) + 0
 
         crop_frame = rgb_frame[y:y+h, x:x+w]
         crop_frame = cv2.cvtColor(crop_frame, cv2.COLOR_RGB2BGR)

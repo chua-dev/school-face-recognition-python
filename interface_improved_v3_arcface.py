@@ -31,7 +31,7 @@ pathlib.Path('./log').mkdir(parents=True, exist_ok=True)
 
 # detection and recognition init
 PUSH_URL = "https://p2d.tkeeper.net/devices/push_glogs"
-CAMERA_ID = 0 #"rtsp://admin:abc12345@192.168.1.5:554/Stream/Channels/101"
+CAMERA_ID = "rtsp://admin:abc12345@192.168.1.5:554/Stream/Channels/101"
 CONFIDENCE_COUNT = 3 # Frequency
 CONFIDENCE_COUNT_MAXIMUM_TIME = 1 # Minit
 ALLOW_SCAN_INTERVAL = 1 # Minit
@@ -131,11 +131,23 @@ for folders in os.listdir(path):
         truePath = os.path.join(path,folders)
         for image in os.listdir(truePath):
             img = cv2.imread(os.path.join(truePath,image))
+            height, width, channels = img.shape
             img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+            detections = faceDetection.process(img)
+            r_bounding_box = detections.detections[0].location_data.relative_bounding_box
+            
+            x, y, h, w = round(r_bounding_box.xmin * width) + 0, round(r_bounding_box.ymin * height) + 0, round(r_bounding_box.height * height) + 0, round(r_bounding_box.width * width) + 0
+
+            img = img[y:y+h, x:x+w]
+            #name_dict.append(folders)
             #extracts = embedder.extract(img, threshold=0.95)
             #imgEncode = extracts[0]['embedding']
             each_emb = face_rec.calc_emb(img)
             FULL_REGISTER_LIST.append(each_emb)
+            #cv2.imshow('image',img)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
+
             img = image_resize(img, height = 140)
             #x_list.append(imgEncode)
             photo_list.append(img)
@@ -304,6 +316,7 @@ def face_recognition(record,event):
                 emb = face_rec.calc_emb(img)
                 #full_name, idx, distance = recognize_face(encode,x_list,y_list,name_dict,0.71)
                 full_name, idx, distance = recognize_face_arcface(emb, name_dict, 0.90)
+                print(full_name, distance)
                 #if name != None:
                 name = full_name.split('_')[0]
                 name_devuid = int(full_name.split('_')[1])
