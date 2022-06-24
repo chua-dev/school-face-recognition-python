@@ -9,8 +9,8 @@ import multiprocessing
 import numpy as np
 import os
 #os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-import tensorflow as tf
-tf.compat.v1.disable_eager_execution()
+#import tensorflow as tf
+#tf.compat.v1.disable_eager_execution()
 from keras_facenet import FaceNet
 import datetime
 from logging.handlers import TimedRotatingFileHandler
