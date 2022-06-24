@@ -12,7 +12,7 @@ face_rec = ArcFace.ArcFace()
 # Load Detection Model
 mpFaceDetection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
-faceDetection = mpFaceDetection.FaceDetection(0.45,1)
+faceDetection = mpFaceDetection.FaceDetection(0.6,1)
 
 #camera_id = 0
 camera_id = "rtsp://admin:abc12345@192.168.1.5:554/Stream/Channels/101"
