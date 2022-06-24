@@ -70,8 +70,12 @@ for folders in os.listdir(path):
             #photo_list.append(img)
             #y_list.append(i)
         i += 1
-    except:
-        print('unbuildable folder')
+    except Exception as e:
+        print(
+            type(e).__name__,          # TypeError
+            __file__,                  # /tmp/example.py
+            e.__traceback__.tb_lineno  # 2
+        )
 
 #emb_list = [emb1, emb2]
 emb_list = FULL_REGISTER_LIST
@@ -159,7 +163,12 @@ while True:
                     pass
     
         cv2.imshow("webcam", frame)
-    except:
+    except Exception as e:
+        print(
+            type(e).__name__,          # TypeError
+            __file__,                  # /tmp/example.py
+            e.__traceback__.tb_lineno  # 2
+        )
         pass
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
