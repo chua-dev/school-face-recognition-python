@@ -72,7 +72,7 @@ while True:
 
     detections = faceDetection.process(rgb_frame)
     if detections.detections:
-        for each_det in detections:
+        for each_det in detections.detections:
             mp_drawing.draw_detection(frame, each_det)
             #print(detections.detections[0].location_data.relative_bounding_box)
             #r_bounding_box = detections.detections[0].location_data.relative_bounding_box
