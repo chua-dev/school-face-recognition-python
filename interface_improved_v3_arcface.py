@@ -11,7 +11,7 @@ import os
 #os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 #import tensorflow as tf
 #tf.compat.v1.disable_eager_execution()
-from keras_facenet import FaceNet
+#from keras_facenet import FaceNet
 import datetime
 from logging.handlers import TimedRotatingFileHandler
 from imutils.video import WebcamVideoStream
@@ -43,7 +43,7 @@ pTime = 0
 mpFaceDetection = mp.solutions.face_detection
 mpDraw = mp.solutions.drawing_utils
 faceDetection = mpFaceDetection.FaceDetection(0.55,1)
-embedder = FaceNet()
+#embedder = FaceNet()
 
 # Setting Up Counter
 face_count_before_confirm_record = {}
@@ -228,6 +228,7 @@ for i in range(40):
 '''
 
 # functions
+'''
 def recognize_face(encodeFace,x_list,y_list,name_dict,threshold):
     dist_list = list()
     for face in x_list:
@@ -240,6 +241,7 @@ def recognize_face(encodeFace,x_list,y_list,name_dict,threshold):
         return name_dict[index2],index1
     else:
         pass
+'''
 
 def recognize_face_arcface(detect_face_emb, name_dict, threshold):
     all_emb_distance = list()
