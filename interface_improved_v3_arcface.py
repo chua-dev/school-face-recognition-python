@@ -157,7 +157,7 @@ for folders in os.listdir(path):
     except:
         print('unbuildable folder')
 
-print(FULL_REGISTER_LIST)
+#print(FULL_REGISTER_LIST)
 print(name_dict)
 
 
