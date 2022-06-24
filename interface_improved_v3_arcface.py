@@ -247,6 +247,7 @@ def recognize_face_arcface(detect_face_emb, name_dict, threshold):
         distance = face_rec.get_distance_embeddings(detect_face_emb, face_emb)
         all_emb_distance.append(distance)
     
+    print(all_emb_distance)
     lowest_index = np.argmin(all_emb_distance)
     lowest_value = all_emb_distance[lowest_index]
     if lowest_value < threshold:
