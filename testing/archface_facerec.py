@@ -11,6 +11,7 @@ face_rec = ArcFace.ArcFace()
 
 # Load Detection Model
 mpFaceDetection = mp.solutions.face_detection
+mp_drawing = mp.solutions.drawing_utils
 faceDetection = mpFaceDetection.FaceDetection(0.45,1)
 
 #camera_id = 0
@@ -71,29 +72,33 @@ while True:
 
     detections = faceDetection.process(rgb_frame)
     if detections.detections:
-        #print(detections.detections[0].location_data.relative_bounding_box)
-        r_bounding_box = detections.detections[0].location_data.relative_bounding_box
-        x, y, h, w = round(r_bounding_box.xmin * width) + 0, round(r_bounding_box.ymin * height) + 0, round(r_bounding_box.height * height) + 0, round(r_bounding_box.width * width) + 0
+        for each_det in detections:
+            mp_drawing.draw_detection(frame, each_det)
+            #print(detections.detections[0].location_data.relative_bounding_box)
+            #r_bounding_box = detections.detections[0].location_data.relative_bounding_box
+            r_bounding_box = each_det.location_data.relative_bounding_box
+            x, y, h, w = round(r_bounding_box.xmin * width) + 0, round(r_bounding_box.ymin * height) + 0, round(r_bounding_box.height * height) + 0, round(r_bounding_box.width * width) + 0
 
-        crop_frame = rgb_frame[y:y+h, x:x+w]
-        crop_frame = cv2.cvtColor(crop_frame, cv2.COLOR_RGB2BGR)
+            crop_frame = rgb_frame[y:y+h, x:x+w]
+            crop_frame = cv2.cvtColor(crop_frame, cv2.COLOR_RGB2BGR)
 
-        # Actual Calculation
-        emb = face_rec.calc_emb(crop_frame)
-        #emb = face_rec.calc_emb(crop_frame)
-        distance_list = list()
+            # Actual Calculation
+            emb = face_rec.calc_emb(crop_frame)
+            #emb = face_rec.calc_emb(crop_frame)
+            distance_list = list()
 
-        for each_emb in emb_list:
-            distance = face_rec.get_distance_embeddings(emb, each_emb)
-            distance_list.append(distance)
+            for each_emb in emb_list:
+                distance = face_rec.get_distance_embeddings(emb, each_emb)
+                distance_list.append(distance)
+        
+            #print(distance_list)
+            idx = np.argmin(distance_list)
+            value = np. amin(distance_list)
+            print(f"{name_dict[idx]}, {value}")
+            if name_dict[idx] != 'Chua_30038':
+                print(distance_list)
     
-        #print(distance_list)
-        idx = np.argmin(distance_list)
-        value = np. amin(distance_list)
-        print(f"{name_dict[idx]}, {value}")
-        if name_dict[idx] != 'Chua_30038':
-            print(distance_list)
-        cv2.imshow("webcam", crop_frame)
+    cv2.imshow("webcam", frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
