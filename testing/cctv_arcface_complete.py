@@ -2,6 +2,8 @@ import os
 import cv2
 import time
 import datetime
+import logging
+import logging.handlers as handlers
 import numpy as np
 import mediapipe as mp
 from arcface import ArcFace
@@ -9,7 +11,13 @@ from imutils.video import WebcamVideoStream
 
 from utils import *
 
+logging.basicConfig(filename="./log/attendance.log", format='%(asctime)s - %(levelname)s - %(message)s', filemode='a')
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+logger.debug("Initiating the Attendance System")
+
 # Load Arc Face Model
+logger.debug("Loading Face Models & Constant Variables")
 face_rec = ArcFace.ArcFace()
 
 name_dict=list()
@@ -29,7 +37,7 @@ FACE_DISTANCE_THRESHOLD = 0.85
 mpFaceDetection = mp.solutions.face_detection
 mp_drawing = mp.solutions.drawing_utils
 faceDetection = mpFaceDetection.FaceDetection(DETECTION_SENSITIVITY, MP_MODEL_SELECTION)
-
+logger.debug("Successfully Loaded Face Models & Constant Variables")
 
 cap = WebcamVideoStream(src=CAMERA_ID).start()
 
@@ -41,7 +49,7 @@ cap = WebcamVideoStream(src=CAMERA_ID).start()
 #path = "/Users/p2digital/Documents/school-multiprocessing-facerec/testing/face"
 path = "/home/p2d/Documents/CCTV_FACE_PROJECT/school-face-recognition-python/face"
 
-
+logger.debug("Loading Face Photo and Extracting Face Features")
 i = 0
 for folders in os.listdir(path):
     try:
@@ -71,16 +79,21 @@ for folders in os.listdir(path):
             #y_list.append(i)
         i += 1
     except Exception as e:
+        logger.warning(type(e).__name__, __file__, e.__traceback__.tb_lineno)
         print(
             type(e).__name__,          # TypeError
             __file__,                  # /tmp/example.py
             e.__traceback__.tb_lineno  # 2
         )
+logger.debug("Successfully Loaded Face Photo and Extracting Face Features")
 
-#emb_list = [emb1, emb2]
 emb_list = FULL_REGISTER_LIST
 
-print(name_dict)
+unique_name_dict = list(set(name_dict))
+print(f"Raw Register: {name_dict}")
+print(f"Unique Register: {unique_name_dict}")
+logger.debug(f"Unique Register: {unique_name_dict}, Count: {len(unique_name_dict)}")
+
 while True:
     try:
         frame = cap.read()
@@ -152,9 +165,11 @@ while True:
                                 pass
                             else:
                                 print(f"Attendance Success for {name}, {devuid}")
+                                logger.info(f"Successfully push glog for Name: {name}, Enrollid: {devuid}, Time: {datetime.datetime.now()}")
                                 TEMPORARY_SENT_RECORD[name] = datetime.datetime.now()
                         else:
                             print(f"Attendance Success for {name}, {devuid}")
+                            logger.info(f"Successfully push glog for Name: {name}, Enrollid: {devuid}, Time: {datetime.datetime.now()}")
                             TEMPORARY_SENT_RECORD[name] = datetime.datetime.now()
                     else:
                         pass
@@ -164,6 +179,7 @@ while True:
     
         cv2.imshow("webcam", frame)
     except Exception as e:
+        logger.error(type(e).__name__, __file__, e.__traceback__.tb_lineno)
         print(
             type(e).__name__,          # TypeError
             __file__,                  # /tmp/example.py
@@ -174,14 +190,3 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 cv2.destroyWindow('Image')
-
-
-
-
-'''
-emb1 = face_rec.calc_emb("jack.jpeg")
-emb2 = face_rec.calc_emb("john.jpeg")
-emb3 = face_rec.calc_emb("jenny.jpeg")
-
-distance = face_rec.get_distance_embeddings(emb2, emb3)
-'''
