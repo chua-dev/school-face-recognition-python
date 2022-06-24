@@ -121,7 +121,8 @@ y_list = list()
 name_dict = dict()
 #path = 'D:/Users/Admin/Desktop/clientFaces/clients3'
 #path = "/Users/p2digital/Documents/theface"
-path = "/Users/p2digital/Documents/school-multiprocessing-facerec/face"
+path = "/home/p2d/Documents/CCTV_FACE_PROJECT/school-face-recognition-python/face"
+#path = "/Users/p2digital/Documents/school-multiprocessing-facerec/face"
 #path = 'C:/Users/user/Desktop/school-multiprocessing-facerec/face'
 
 i = 0
