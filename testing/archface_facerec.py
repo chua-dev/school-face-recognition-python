@@ -15,12 +15,14 @@ faceDetection = mpFaceDetection.FaceDetection(0.45,1)
 
 camera_id = 0
 cap = WebcamVideoStream(src=camera_id).start()
-emb1 = face_rec.calc_emb('chua.jpeg')
-emb2 = face_rec.calc_emb('chua2.jpeg')
-emb3 = face_rec.calc_emb('jack.jpeg')
+
+#emb1 = face_rec.calc_emb('chua.jpeg')
+#emb2 = face_rec.calc_emb('chua2.jpeg')
+#emb3 = face_rec.calc_emb('jack.jpeg')
 
 #path = 'C:/Users/user/Desktop/school-multiprocessing-facerec/face'
-path = "/Users/p2digital/Documents/school-multiprocessing-facerec/testing/face"
+#path = "/Users/p2digital/Documents/school-multiprocessing-facerec/testing/face"
+path = "/home/p2d/Documents/CCTV_FACE_PROJECT/school-face-recognition-python/face"
 
 name_dict=list()
 FULL_REGISTER_LIST=list()
